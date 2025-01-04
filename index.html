@@ -1,17 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embedded RNA Visualization</title>
-    <script src="fornac.min.js"></script> <!-- Updated to use a local copy -->
 </head>
 <body>
-    <div id="forna-container" style="width: 500px; height: 400px;"></div>
-    <script>
-        var container = new FornaContainer('forna-container', { 'applyForce': true });
-        container.addRNA("GCAUCUAUGC", "(((....)))", { 'structureId': 'example' });
-    </script>
+    <h1>Embedded Interactive RNA Visualization</h1>
+    <iframe src="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/96d25e0fa9b14b50a71f758a71248ccc" 
+            width="100%" height="600" frameborder="0" style="border: none; overflow: hidden;">
+        Your browser does not support iframes.
+    </iframe>
 </body>
 </html>
-
