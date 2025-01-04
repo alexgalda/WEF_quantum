@@ -1,13 +1,19 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Embedded PowerPoint Presentation</title>
+    <title>Simple Slideshow</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>My PowerPoint Presentation</h1>
-    <iframe src="https://modernatherapeutics-my.sharepoint.com/personal/agalda_modernatx_com/_layouts/15/Doc.aspx?sourcedoc={acbb6f75-1464-4a5b-aee2-f1d6274d8917}&amp;action=embedview&amp;wdAr=1.7777777777777777&amp;wdEaaCheck=0" width="476px" height="288px" frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe>
-    <p>This is my PowerPoint presentation embedded from OneDrive.</p>
+    <div class="slideshow-container">
+        <img src="slide1.jpg" alt="Slide 1" class="slide" style="display:block;">
+        <img src="slide2.jpg" alt="Slide 2" class="slide">
+        <img src="slide3.jpg" alt="Slide 3" class="slide">
+        <!-- Add more slides as needed -->
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
