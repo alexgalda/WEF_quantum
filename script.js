@@ -1,19 +1,15 @@
 
-let slides = document.querySelectorAll('.slide');
-let currentIndex = 0;
-
-function showSlide(index) {
-    slides.forEach((slide, idx) => {
-        slide.style.opacity = '0'; // Hide all slides
-        slide.style.display = 'none'; // Ensure slides do not take space
+document.addEventListener('DOMContentLoaded', function() {
+    var viewer = new $3Dmol.createViewer("molViewer", {
+        backgroundColor: "white"
     });
-    slides[index].style.display = 'block'; // Show only the active slide
-    slides[index].style.opacity = '1';
-}
 
-slides.forEach((slide, idx) => {
-    slide.addEventListener('mouseover', () => showSlide(idx));
+    // Load a PDB structure - replace 'pdbID' with the actual PDB ID
+    var pdbUri = 'https://files.rcsb.org/download/2POR.pdb'; // Example PDB ID
+    $.get(pdbUri, function(data) {
+        viewer.addModel(data, 'pdb');
+        viewer.setStyle({}, {cartoon: {color: 'spectrum'}});
+        viewer.zoomTo();
+        viewer.render();
+    });
 });
-
-// Initialize first slide visibility
-showSlide(currentIndex);

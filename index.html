@@ -4,16 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Slideshow</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Interactive mRNA Secondary Structure</title>
+    <script src="https://3dmol.csb.pitt.edu/build/3Dmol-min.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="slideshow-container">
-        <img src="slide1.jpg" alt="Slide 1" class="slide" style="display:block;">
-        <img src="slide2.jpg" alt="Slide 2" class="slide">
-        <img src="slide3.jpg" alt="Slide 3" class="slide">
-        <!-- Add more slides as needed -->
-    </div>
+    <div id="molViewer" style="width: 800px; height: 600px; position: relative; margin: auto;"></div>
     <script src="script.js"></script>
 </body>
 </html>
