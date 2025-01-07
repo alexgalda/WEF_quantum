@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNA Visualization</title>
+    <style>
+        body {
+          font-family: 'Century Gothic'; /* Example of setting a common font */
+          font-size: 16px; /* A common font size for text */
+          color: #333; /* Standard text color for readability */
+          display: flex;
+          flex-direction: row;
+          align-items: start;
+          justify-content: start;
+          margin: 0;
+          height: 100vh;
+          background: #bfe6f6;
+          overflow: hidden;
+      }
+      
+      #settings-panel, #table-container {
+          background: #ffffff; /* Consistent background for clarity */
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+      
+      select, input[type="radio"], table {
+          width: 100%;
+          padding: 8px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          margin-bottom: 10px; /* Consistent spacing */
+      }
+      
+      th, td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+      }
+      
+      th {
+          background-color: #f2f2f2;
+      }
+      
+      label {
+          font-size: 16px; /* Ensure labels in the settings panel use the same font size */
+          margin: 5px 0;
+      }
+      
+      table {
+          border-collapse: collapse;
+          margin-top: 20px; /* Adjusted to align with the styling */
+      }
+
+        
+        #main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Ensure content is centered horizontally */
+            justify-content: center; /* Center content vertically */
+            flex-grow: 1; /* Allow this container to take up remaining space */
+            position: relative; /* Relative positioning for absolute child elements */
+        }
+
+        #table-container {
+            margin-left: 50px; /* Position the table 50px from the left edge of its container */
+            width: 600px; /* Maintain a fixed width to ensure alignment does not change with content */
+            background: #fff; /* Optional: Define a background color for visibility */
+            padding: 20px; /* Padding around the content */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+            border-radius: 5px; /* Rounded corners for aesthetics */
+        }
+        
+        table {
+            border-collapse: collapse; /* Ensures borders between cells are merged */
+            width: 100%; /* Full width of its container */
+            margin: 0; /* Remove default margin */
+        }
+        
+        th, td {
+            border: 1px solid #ddd; /* Defines a light grey border for each cell */
+            padding: 8px; /* Padding inside each cell for spacing */
+            text-align: left; /* Aligns text to the left for all cells */
+        }
+        
+        th {
+            background-color: #f2f2f2; /* Light grey background for header cells */
+            font-weight: bold; /* Bold font weight for headers */
+        }
+
+          
+        caption {
+              font-size: 20px; /* Larger text for caption/title */
+              margin-bottom: 10px; /* Space below the title */
+              font-weight: bold; /* Bold font for the title */
+              text-align: left; /* Align the caption to the left */
+        }
+
+        .iframe-container {
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            width: 600px;  /* Reduced width to 600px */
+            height: 600px; /* Reduced height to 600px */
+            right: 0;       /* Position to the right */
+            top: 150%;       /* Align to middle vertically */
+            transform: translateX(-50%); /* Center align horizontally */
+            overflow: hidden;
+            border: 1px solid #2aace2; /* Add border for visibility */
+            box-sizing: border-box;
+        }
+        iframe {
+            position: absolute; /* Important for the iframe trim */
+            top: -47px;     /* Increase boundary offset to 45px */
+            bottom: -47px;
+            left: -50px;
+            right: -50px;
+            width: calc(100% + 90px); /* Adjust width to account for hidden parts */
+            height: calc(100% + 90px); /* Adjust height to account for hidden parts */
+        }
+
+        #logo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 150px;
+        
+        .navigation {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        .navigation a {
+            padding: 8px 16px;
+            background-color: #2aace2;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-right: 0px;
+        }
+
+        .navigation a:last-child {
+            margin-right: 0;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div id="settings-panel">
+        <select id="structure-selector" onchange="changeStructure()">
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/aec2b9ceb6fd496fa93e80b579a41a58">seq_7906</option>
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/37bae10d216e4c868fed318e20517a42">seq_2200</option>
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/45cf627fb924498a8d200542cb70be32">seq_6628</option>
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/7c0de52513394a08a923f4139ae56a21">seq_1033</option>
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/471e4f4ba2b04223b39a1524460e2770">seq_9246</option>
+            <option value="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/6537536aad49430889e0b0f5752edaa7">seq_1341</option>
+        </select>
+        <!-- Adding radio buttons -->
+        <div>
+            <label><input type="radio" name="ansatz" value="linear" checked>Linear (Ansatz)</label>
+        </div>
+        <div>
+            <label><input type="radio" name="vqe_layers" value="2" checked>2 (VQE Layers)</label>
+        </div>
+    </div>
+    
+    <div id="main-content">
+        <div id="table-container">
+            <h2>Table of Values</h2>
+            <table>
+                <tr>
+                    <th>mRNA sequence</th>
+                    <td id="sequence"></td>
+                </tr>
+                <tr>
+                    <th>Length</th>
+                    <td id="len"></td>
+                </tr>
+                <tr>
+                    <th>Number of constraints</th>
+                    <td id="constraints"></td>
+                </tr>
+                <tr>
+                    <th>Number of qubits</th>
+                    <td id="qubits"></td>
+                </tr>
+                <tr>
+                    <th>Energy (normalized)</th>
+                    <td id="energy"></td>
+                </tr>
+            </table>
+        </div>
+      
+        <div class="iframe-container">
+            <iframe src="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/aec2b9ceb6fd496fa93e80b579a41a58" id="rna-iframe"
+                    frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    
+    <img src="Moderna_logo.png" alt="Moderna Logo" id="logo">
+
+    <div class="navigation">
+        <a href="start.html">Previous</a>
+        <a href="next.html">Next</a>
+        <!-- Add another 'Next' link here if there's another page -->
+    </div>
+    
+    <script>
+    const sequenceInfo = {
+        'seq_2200': {'sequence': 'UUGCCUCAUAAGCGUCUUACUGAGCCCAAG', 'len': 30, 'qubits': 40, 'constraints': 608, 'energy': -3.8},
+        'seq_7906': {'sequence': 'AAGCCUAUCAACGGCGUGCGCUGUGAUAUG', 'len': 30, 'qubits': 50, 'constraints': 991, 'energy': -8.4},
+        'seq_6628': {'sequence': 'CCAUUUAUACCCCGGGCCGCCUACUGCACCCAGUGUAACAUG', 'len': 42, 'qubits': 80, 'constraints': 2345, 'energy': -140.0},
+        'seq_1033': {'sequence': 'AUCUGGUCUAAUAAUCUGUAUCUGCGCCCAUUUCAGUUUAUCCAU', 'len': 45, 'qubits': 100, 'constraints': 3667, 'energy': -2.7},
+        'seq_9246': {'sequence': 'AUCCAUCAGUGGUACUGCAUGAUGCCCAUCUGCAUGGCCAAGAGG', 'len': 45, 'qubits': 120, 'constraints': 5427, 'energy': -9.6},
+        'seq_1341': {'sequence': 'GAGCAGCCUGCUCGGUAUGCCCUGUUCGACUCCUGGCAGGGCAAC', 'len': 45, 'qubits': 127, 'constraints': 6289, 'energy': -13.1}
+    };
+
+    function changeStructure() {
+        var selector = document.getElementById('structure-selector');
+        var selectedOptionText = selector.options[selector.selectedIndex].text; // Get the text of the selected option, which corresponds to the sequence IDs.
+
+        document.getElementById('sequence').textContent = sequenceInfo[selectedOptionText].sequence; // Display the Sequence
+        document.getElementById('len').textContent = sequenceInfo[selectedOptionText].len; // Display the Sequence Length
+        document.getElementById('constraints').textContent = sequenceInfo[selectedOptionText].constraints; // Display the Number of Constraints
+        document.getElementById('qubits').textContent = sequenceInfo[selectedOptionText].qubits; // Display the Number of Qubits
+        document.getElementById('energy').textContent = sequenceInfo[selectedOptionText].energy; // Display the Energy
+
+        var iframe = document.getElementById('rna-iframe');
+        iframe.src = selector.value;
+    }
+
+    // Initialize with first selection
+    changeStructure();
+</script>
+
+</body>
+</html>

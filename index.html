@@ -5,12 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Embedded RNA Visualization</title>
+    <style>
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 630px; /* Adjusted height to account for hidden top and bottom */
+            overflow: hidden; /* Ensures anything outside this container is not shown */
+        }
+        .iframe-container iframe {
+            position: absolute;
+            top: -50px; /* Offset to hide the top 50px */
+            left: 0;
+            width: 100%;
+            height: 730px; /* Increase iframe height to stretch and allow bottom 50px to be hidden */
+        }
+    </style>
 </head>
 <body>
-    <h1>Embedded Interactive RNA Visualization</h1>
-    <iframe src="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/96d25e0fa9b14b50a71f758a71248ccc" 
-            width="100%" height="600" frameborder="0" style="border: none; overflow: hidden;">
-        Your browser does not support iframes.
-    </iframe>
+    <div class="iframe-container">
+        <iframe src="http://rna.tbi.univie.ac.at/forna/forna.html?id=share/96d25e0fa9b14b50a71f758a71248ccc"
+                frameborder="0" style="border: none;">
+            Your browser does not support iframes.
+        </iframe>
+    </div>
 </body>
 </html>
